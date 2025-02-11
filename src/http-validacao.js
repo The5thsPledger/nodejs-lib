@@ -21,9 +21,28 @@ async function checaStatus (listaURLs) {
 
 function manejaErros (erro) {
   if (erro.cause.code === 'ENOTFOUND') {
-    return 'link não encontrado';
-  } else {
-    return 'ocorreu algum erro';
+    return {
+      color: 'yellow',
+      msg: 'Link não encontrado'
+    };
+  } 
+  else if (erro.cause.code === 'ECONNREFUSED') {
+    return {
+      color: 'red',
+      msg: 'Conexão recusada'
+    };
+  }
+  else if (erro.cause.code === 'ETIMEDOUT') {
+    return {
+      color: 'black',
+      msg: 'Tempo limite excedido'
+    };
+  }
+  else {
+    return {
+      color: 'redBright',
+      msg: 'ocorreu o seguinte erro: ' + erro.cause.code
+    }
   }
 }
 
@@ -33,6 +52,6 @@ export default async function listaValidada (listaDeLinks) {
 
   return listaDeLinks.links.map((objeto, indice) => ({
     ...objeto,
-    status: status[indice]
+    status: status[indice] == 200 || status[indice] == 404 ? status[indice] : chalk[status[indice].color](status[indice].msg)
   }))
 }
