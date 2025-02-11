@@ -22,5 +22,8 @@
   "homepage": "https://github.com/alura-cursos/2708-node-lib-md#readme",
   "dependencies": {
     "chalk": "5.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.1"
   }
 }
