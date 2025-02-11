@@ -1,4 +1,5 @@
 import chalk from "chalk";
+import UrlTestada from "./model/URL.js";
 
 function extraiLinks (arrLinks) {
   return arrLinks.map((objetoLink) => Object.values(objetoLink).join())
@@ -7,11 +8,17 @@ function extraiLinks (arrLinks) {
 async function checaStatus (listaURLs) {
   const arrStatus = await Promise
   .all(
-    listaURLs.map(async (url) => {
+    listaURLs.map(async (url : string) => {
       try {
-        const response = await fetch(url)
-        return response.status;
-      } catch (erro) {
+        const response : UrlTestada = new UrlTestada(url);
+        let status : number = response.getUrlStatus();
+        if (!status) {
+            status = (await fetch(url)).status;
+            response.setUrlStatus(status)
+        }
+        return status;
+      } 
+      catch (erro) {
         return manejaErros(erro);
       }
     })
@@ -48,7 +55,10 @@ function manejaErros (erro) {
 
 export default async function listaValidada (listaDeLinks) {
   const links = extraiLinks(listaDeLinks.links);
+  console.log("Primeiro check")
   const status = await checaStatus(links);
+  console.log("Segundo check")
+  const status2 = await checaStatus(links);
 
   const lista = listaDeLinks.links.map((objeto, indice) => ({
     ...objeto,
