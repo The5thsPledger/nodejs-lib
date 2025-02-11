@@ -2,10 +2,8 @@ import fs from 'fs';
 import chalk from 'chalk';
 
 function extraiLinks(texto) {
-    console.log(texto)
   const regex = /\[([^[\]]*?)\]\((https?:\/\/[^\s?#.].[^\s]*)\)/gm;
   const capturas = [...texto.matchAll(regex)];
-  console.log(capturas)
   const resultados = capturas.map(captura => ({[captura[1]]: captura[2]}))
   return { 
     links: resultados.length !== 0 ? resultados : 'não há links no arquivo',
@@ -14,7 +12,6 @@ function extraiLinks(texto) {
 }
 
 function trataErro(erro) {
-  console.log(erro);
   throw new Error(chalk.red(erro.code, 'não há arquivo no diretório'));
 }
 

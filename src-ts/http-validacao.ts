@@ -55,6 +55,5 @@ export default async function listaValidada (listaDeLinks) {
     status: status[indice] === 200 || status[indice] === 404 ? 
         status[indice] :  chalk.reset() + chalk[status[indice].color](status[indice].msg) + chalk.reset()
   }))
-  console.log(links)
   return lista;
 }

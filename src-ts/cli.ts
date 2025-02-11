@@ -7,9 +7,9 @@ const caminho = process.argv;
 
 async function imprimeLista(valida, resultado, identificador = '') {
   if (valida) {
-    console.log(resultado,
+    console.log(
       chalk.yellow('lista validada'),
-    //   chalk.black.bgGreen(identificador),
+      chalk.black.bgGreen(identificador),
       chalk.reset(),
       await listaValidada(resultado),
       chalk.black.bgGreen('Total de links: ' + resultado.total)
@@ -42,13 +42,13 @@ async function processaTexto(argumentos) {
     const resultado = await pegaArquivo(argumentos[2]);
     imprimeLista(valida, resultado);
   } 
-//   else if (fs.lstatSync(caminho).isDirectory()) {
-//     const arquivos = await fs.promises.readdir(caminho)
-//     arquivos.forEach(async (nomeDeArquivo) => {
-//       const lista = await pegaArquivo(`${caminho}/${nomeDeArquivo}`)
-//       imprimeLista(valida, lista, nomeDeArquivo)
-//     })
-//   }
+  else if (fs.lstatSync(caminho).isDirectory()) {
+    const arquivos = await fs.promises.readdir(caminho)
+    arquivos.forEach(async (nomeDeArquivo) => {
+      const lista = await pegaArquivo(`${caminho}/${nomeDeArquivo}`)
+      imprimeLista(valida, lista, nomeDeArquivo)
+    })
+  }
 }
 
 processaTexto(caminho);
